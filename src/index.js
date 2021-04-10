@@ -11,13 +11,13 @@ import { createLoadingDOM } from '@utils'
 // 创建一个loading
 createLoadingDOM()
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <RouteEl></RouteEl>
       </BrowserRouter>
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

@@ -350,7 +350,8 @@ module.exports = function (webpackEnv) {
         "@store": pathResolve("../src/store"),
         "@utils": pathResolve("../src/utils"),
         "@api": pathResolve("../src/api"),
-        '@axios':pathResolve('../src/axios')
+        '@axios':pathResolve('../src/axios'),
+        '@assets':pathResolve('../src/assets')
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
