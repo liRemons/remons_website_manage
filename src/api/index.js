@@ -1,2 +1,3 @@
-import Home from "./home";
-export { Home };
+import home from "./home";
+import music from "./music";
+export { home, music };

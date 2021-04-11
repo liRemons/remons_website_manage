@@ -19,20 +19,20 @@ const MenuItem = (data) => data.map(item => {
 )
 
 // 刷新时赋值默认展开，返回一个数组
-const defaultOpenKeys = ({ name, data, father }) => {
-  if (!(data instanceof Array)) return []
-  let path, children;
-  path = data.find(item => item.path === name)?.path;
-  if (!path) {
-    data.forEach((item) => {
-      if (item.type === 'subMenu') {
-        children = item.children
-        father = item
-      }
-    })
+let path;
+const defaultOpenKeys = ({ pathname, data, father }) => {
+  if (!Array.isArray(data)) return [];
+  // for 循环可中断
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].path === pathname) {
+      path = data[i].path;
+      if (father) path = father.path
+      break;
+    } else {
+      defaultOpenKeys({ pathname, data: data[i].children, father: data[i] })
+    }
   }
-  path && father && (path = father.path);
-  return path ? [path] : defaultOpenKeys({ name, data: children, father })
+  if (path) return [path]
 }
 
 
@@ -46,7 +46,7 @@ function MenuComponent(props) {
     <Menu
       theme="dark"
       mode="inline"
-      defaultOpenKeys={defaultOpenKeys({ name: pathname, data: menuData })}
+      defaultOpenKeys={defaultOpenKeys({ pathname, data: menuData })}
       defaultSelectedKeys={[pathname]}
       onClick={changeMenu}
     >

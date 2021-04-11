@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import utils from "./utils/reducer";
-import Home from "./Home/reducer";
+import home from "./home/reducer";
+import music from "./music/reducer";
 // 合并 reducer
 const reducer = combineReducers({
   utils,
-  Home,
+  home,
+  music,
 });
 
 export default reducer;

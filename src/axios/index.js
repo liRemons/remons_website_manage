@@ -7,7 +7,7 @@ const controlLoading = ({ isOpen }) => {
   const loadingDOM = document.getElementById("loading");
   if (isOpen) {
     loadingDOM.setAttribute("class", "loadingVerlay");
-    loadingDOM.style.display = 'block'
+    loadingDOM.style.display = 'flex'
     ReactDOM.render(<Spin tip="加载中..." size="large"></Spin>, loadingDOM);
   } else {
     loadingDOM.setAttribute("class", "");
@@ -73,4 +73,4 @@ arr.forEach((item) => {
 });
 // request拦截器,在请求之前做一些处理
 
-export default { service };
+export  { service };
