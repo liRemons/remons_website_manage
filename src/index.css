@@ -4,6 +4,10 @@
     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+pre{
+  background: #263238;
+}
+
 #loading {
   position: fixed;
   top: 0;

@@ -22,6 +22,13 @@ const AdvancedSearchForm = (props) => {
     { name: 'collecttionId', label: "专辑", childNode: <Select placeholder="请选择专辑" dataSource={[]} allowClear /> },
   ]
 
+  const SearchFrom = [
+    { type: 'primary', htmlType: 'submit', icon: <SearchOutlined />, onClick: () => { form.resetFields() } },
+    { type: 'primary', icon: <ReloadOutlined /> },
+    { type: 'primary', icon: <PlusOutlined />, onClick: add },
+    { type: 'primary', danger: true, icon: <DeleteOutlined /> },
+  ]
+
   return (
     <Form
       form={form}
@@ -38,10 +45,7 @@ const AdvancedSearchForm = (props) => {
         )
       }
       <Space>
-        <Button type="primary" htmlType="submit" icon={<SearchOutlined />} />
-        <Button onClick={() => { form.resetFields(); }} icon={<ReloadOutlined />} />
-        <Button type="primary" onClick={add} icon={<PlusOutlined />} />
-        <Button type="primary" danger icon={<DeleteOutlined />} />
+        {SearchFrom.map((item, index) => <Button {...item} key={index}></Button>)}
       </Space>
     </Form>
   );

@@ -9,5 +9,13 @@ module.exports = (app) => {
       changeOrigin: true,
     })
   );
-  // app.use
+  app.use(
+    createProxyMiddleware('/mark',{
+      target:"https://remons.gitee.io",
+      pathRewrite:{
+        "^/mark": "",
+      },
+      changeOrigin:true
+    })
+  )
 };
