@@ -2,8 +2,9 @@ import { connect } from '@utils'
 import actionCreators from '@store/music/actions'
 import Select from '@components/Select'
 import AddOrEdit from './addOrEdit'
+import SearchBtn from '@components/SearchBtn'
 import { Table, Button, Space, Form, Input, Card, Modal } from 'antd';
-import { DeleteOutlined, EditOutlined, SearchOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 const AdvancedSearchForm = (props) => {
   const { openModal } = props
@@ -21,14 +22,6 @@ const AdvancedSearchForm = (props) => {
     { name: 'authorId', label: "歌手", childNode: <Select placeholder="请选择歌手" dataSource={[]} allowClear /> },
     { name: 'collecttionId', label: "专辑", childNode: <Select placeholder="请选择专辑" dataSource={[]} allowClear /> },
   ]
-
-  const SearchFrom = [
-    { type: 'primary', htmlType: 'submit', icon: <SearchOutlined />, onClick: () => { form.resetFields() } },
-    { type: 'primary', icon: <ReloadOutlined /> },
-    { type: 'primary', icon: <PlusOutlined />, onClick: add },
-    { type: 'primary', danger: true, icon: <DeleteOutlined /> },
-  ]
-
   return (
     <Form
       form={form}
@@ -44,9 +37,7 @@ const AdvancedSearchForm = (props) => {
           </Form.Item>
         )
       }
-      <Space>
-        {SearchFrom.map((item, index) => <Button {...item} key={index}></Button>)}
-      </Space>
+      <SearchBtn form={form} {...props} add={add}></SearchBtn>
     </Form>
   );
 };
