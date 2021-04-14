@@ -53,8 +53,16 @@ function Article(props) {
     <Card bordered={false} className="search">
       <AdvancedSearchForm {...props} openModal={openModal}></AdvancedSearchForm>
     </Card>
-    <Modal title="Basic Modal" visible={visible} footer={null} onCancel={() => setVisible(false)} width="100%">
-      <AddOrEdit></AddOrEdit>
+    <Modal
+      title="Basic Modal"
+      visible={visible}
+      footer={null}
+      onCancel={() => setVisible(false)}
+      width="100%"
+      style={{ top: 0 }}
+      destroyOnClose={true}
+    >
+      <AddOrEdit {...props}></AddOrEdit>
     </Modal>
   </>
 }

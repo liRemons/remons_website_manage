@@ -4,6 +4,8 @@ import {
   TeamOutlined,
   ReadOutlined,
   UserOutlined,
+  FileWordOutlined,
+  MessageOutlined
 } from "@ant-design/icons";
 export const option = [
   {
@@ -88,6 +90,21 @@ export const option = [
         meta: {},
       },
     ],
+  },
+  {
+    path:'/doc',
+    name:'doc',
+    icon:<FileWordOutlined/>,
+    component:AsyncComponent(()=> import('@pages/doc')),
+    title:"文档管理",
+    meta:{}
+  },{
+    path:'/leaveMsg',
+    name:'leaveMsg',
+    icon:<MessageOutlined/>,
+    component:AsyncComponent(()=> import('@pages/leaveMsg')),
+    title:"留言反馈",
+    meta:{}
   },
   {
     path: "/myInfo",
