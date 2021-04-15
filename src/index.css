@@ -2,11 +2,9 @@
   height: 100%;
   font-family: "SF Pro SC", "SF Pro Display", "SF Pro Icons", "PingFang SC",
     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    background: #EAEBF3;
 }
 
-pre{
-  background: #263238;
-}
 
 #loading {
   position: fixed;

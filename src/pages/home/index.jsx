@@ -7,6 +7,11 @@ import styled from './index.module.less'
 import { isPublicComOption } from '@router/options.js'
 function Home(props) {
   const { history } = props;
+  const homeBtn = [
+    { icon: require('@assets/svg/home_music.svg').default, title: "音乐" },
+    { icon: require('@assets/svg/home_discuss.svg').default, title: "音乐" },
+    { icon: require('@assets/svg/home-manage.svg').default, title: "音乐" }
+  ]
   const changeRouter = () => {
     if (isPublicComOption[0].meta.subMenu) {
       history.replace(isPublicComOption[0].children[0].path)
@@ -18,7 +23,13 @@ function Home(props) {
   //  console.log(props);
   return <>
     <div className={styled.main}>
-      永远相信美好的事情即将发生
+      {homeBtn.map((item, index) =>
+        <div key={index} className={styled.box} onClick={changeRouter}>
+          <img src={item.icon} alt="" />
+        </div>
+      )}
+
+      {/* 永远相信美好的事情即将发生
       <div className={styled.enter}>
         <Button
           type="primary"
@@ -26,10 +37,9 @@ function Home(props) {
           size="large"
           onClick={changeRouter}
         >立即进入 <LogoutOutlined /></Button>
-      </div>
-
+      </div> */}
     </div>
-    <Earth></Earth>
+    {/* <Earth></Earth> */}
   </>
 }
 
