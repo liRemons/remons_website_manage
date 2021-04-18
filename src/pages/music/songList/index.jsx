@@ -66,14 +66,15 @@ function SongList(props) {
 
   }
   useEffect(() => {
-    props.getMusicList()
+    
+    props.getMusicList({page:1,name:'李志'})
   }, [])
   return <>
     <Card bordered={false} className="search">
       <AdvancedSearchForm {...props} openModal={openModal}></AdvancedSearchForm>
     </Card>
     <Table rowKey={record => record.id} columns={columns} dataSource={musicList} />
-    <Modal title="Basic Modal" visible={visible} footer={null} onCancel={() => setVisible(false)}>
+    <Modal title="Basic Modal" visible={visible} footer={null} destroyOnClose={true} onCancel={() => setVisible(false)}>
       <AddOrEdit></AddOrEdit>
     </Modal>
   </>

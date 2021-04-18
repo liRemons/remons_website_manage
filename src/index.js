@@ -8,6 +8,7 @@ import store from "@store";
 import RouteEl from "@router";
 import "antd/dist/antd.css";
 import { createLoadingDOM } from '@utils'
+window.photoUrl = 'http://localhost:3009'
 // 创建一个loading
 createLoadingDOM()
 ReactDOM.render(

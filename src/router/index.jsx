@@ -1,6 +1,8 @@
 import { Switch, Route, useHistory } from 'react-router-dom'
 import { option } from './options'
 import Layout from '@components/layout'
+import { Suspense } from 'react'
+import { Spin } from 'antd'
 const routerOptions = [];
 const initOption = (data) => {
   data.forEach(item => {
@@ -30,11 +32,13 @@ export default function RouterEl() {
   const token = localStorage.token;
   // if (!token && pathname !== '/login') history.replace('/login')
   return (
-    <Switch>
-      {initRoute(PublicComOption)}
-      <Layout>
-        {initRoute(isPublicComOption)}
-      </Layout>
-    </Switch>
+    <Suspense fallback={<Spin tip="加载中..." size="large"></Spin>}>
+      <Switch>
+        {initRoute(PublicComOption)}
+        <Layout>
+          {initRoute(isPublicComOption)}
+        </Layout>
+      </Switch>
+    </Suspense>
   )
 }

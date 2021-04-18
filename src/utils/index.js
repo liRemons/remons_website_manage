@@ -1,3 +1,4 @@
 import connect from "./connect";
 import createLoadingDOM from "./createLoadingDOM";
-export { connect, createLoadingDOM };
+import beforeUpload from "./beforeUpload";
+export { connect, createLoadingDOM, beforeUpload };

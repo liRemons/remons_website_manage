@@ -1,17 +1,17 @@
-import AsyncComponent from "@components/asyncComponents";
+import { lazy } from "react";
 import {
   CustomerServiceOutlined,
   TeamOutlined,
   ReadOutlined,
   UserOutlined,
   FileWordOutlined,
-  MessageOutlined
+  MessageOutlined,
 } from "@ant-design/icons";
 export const option = [
   {
     path: "/login",
     name: "login",
-    component: AsyncComponent(() => import("@pages/login")),
+    component: lazy(() => import("@pages/login")),
     title: "登录",
     meta: {
       isPublicCom: true,
@@ -20,7 +20,7 @@ export const option = [
   {
     path: "/",
     name: "home",
-    component: AsyncComponent(() => import("@pages/home")),
+    component: lazy(() => import("@pages/home")),
     title: "首页",
     meta: {
       isPublicCom: true,
@@ -36,23 +36,23 @@ export const option = [
     },
     children: [
       {
-        path: "/music/author",
-        name: "music-author",
-        component: AsyncComponent(() => import("@pages/music/author")),
+        path: "/music/singer",
+        name: "music-singer",
+        component: lazy(() => import("@pages/music/singer")),
         title: "歌手管理",
         meta: {},
       },
       {
         path: "/music/collection",
         name: "music-collection",
-        component: AsyncComponent(() => import("@pages/music/collection")),
+        component: lazy(() => import("@pages/music/collection")),
         title: "专辑管理",
         meta: {},
       },
       {
         path: "/music/songList",
         name: "music-songList",
-        component: AsyncComponent(() => import("@pages/music/songList")),
+        component: lazy(() => import("@pages/music/songList")),
         title: "歌曲列表",
         meta: {},
       },
@@ -61,7 +61,7 @@ export const option = [
   {
     path: "/user",
     name: "user",
-    component: AsyncComponent(() => import("@pages/user")),
+    component: lazy(() => import("@pages/user")),
     title: "用户管理",
     icon: <TeamOutlined />,
     meta: {},
@@ -79,38 +79,39 @@ export const option = [
         path: "/content/category",
         name: "content-category",
         title: "技术分类",
-        component: AsyncComponent(() => import("@pages/content/category")),
+        component: lazy(() => import("@pages/content/category")),
         meta: {},
       },
       {
         path: "/content/article",
         name: "content-article",
         title: "文章管理",
-        component: AsyncComponent(() => import("@pages/content/article")),
+        component: lazy(() => import("@pages/content/article")),
         meta: {},
       },
     ],
   },
   {
-    path:'/doc',
-    name:'doc',
-    icon:<FileWordOutlined/>,
-    component:AsyncComponent(()=> import('@pages/doc')),
-    title:"文档管理",
-    meta:{}
-  },{
-    path:'/leaveMsg',
-    name:'leaveMsg',
-    icon:<MessageOutlined/>,
-    component:AsyncComponent(()=> import('@pages/leaveMsg')),
-    title:"留言反馈",
-    meta:{}
+    path: "/doc",
+    name: "doc",
+    icon: <FileWordOutlined />,
+    component: lazy(() => import("@pages/doc")),
+    title: "文档管理",
+    meta: {},
+  },
+  {
+    path: "/leaveMsg",
+    name: "leaveMsg",
+    icon: <MessageOutlined />,
+    component: lazy(() => import("@pages/leaveMsg")),
+    title: "留言反馈",
+    meta: {},
   },
   {
     path: "/myInfo",
     name: "myInfo",
     icon: <UserOutlined />,
-    component: AsyncComponent(() => import("@pages/myInfo")),
+    component: lazy(() => import("@pages/myInfo")),
     title: "个人信息",
     meta: {},
   },

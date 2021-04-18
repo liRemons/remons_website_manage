@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { Button } from 'antd'
 import { LogoutOutlined } from '@ant-design/icons';
-import Earth from './earth'
 import styled from './index.module.less'
 import { isPublicComOption } from '@router/options.js'
 function Home(props) {
@@ -10,7 +9,7 @@ function Home(props) {
   const homeBtn = [
     { icon: require('@assets/svg/home_music.svg').default, title: "音乐" },
     { icon: require('@assets/svg/home_discuss.svg').default, title: "音乐" },
-    { icon: require('@assets/svg/home-manage.svg').default, title: "音乐" }
+    { icon: require('@assets/svg/home_manage.svg').default, title: "音乐" }
   ]
   const changeRouter = () => {
     if (isPublicComOption[0].meta.subMenu) {
@@ -39,7 +38,6 @@ function Home(props) {
         >立即进入 <LogoutOutlined /></Button>
       </div> */}
     </div>
-    {/* <Earth></Earth> */}
   </>
 }
 

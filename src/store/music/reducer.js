@@ -1,20 +1,22 @@
-import * as type from './type'
+import * as type from "./type";
 
 const defaultState = {
-  musicList:[]
-}
+  musicList: [],
+  singerList: [],
+};
 
-
-export default ( state = defaultState, action = {} )=> {
+export default (state = defaultState, action = {}) => {
   const newState = { ...state };
   const { data } = action;
-  switch (type.MUSIC_LIST) {
-    case action.type:
+  switch (action.type) {
+    case type["MUSIC_LIST"]:
       newState.musicList = data;
       break;
-  
+    case type["SINGER_LIST"]:
+      newState.singerList = data;
+      break;
     default:
       break;
   }
-  return newState
-}
+  return newState;
+};
