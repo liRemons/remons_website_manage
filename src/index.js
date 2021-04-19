@@ -14,7 +14,7 @@ createLoadingDOM()
 ReactDOM.render(
   // <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/manage">
         <RouteEl></RouteEl>
       </BrowserRouter>
     </Provider>,

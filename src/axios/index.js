@@ -7,17 +7,17 @@ const controlLoading = ({ isOpen }) => {
   const loadingDOM = document.getElementById("loading");
   if (isOpen) {
     loadingDOM.setAttribute("class", "loadingVerlay");
-    loadingDOM.style.display = 'flex'
+    loadingDOM.style.display = "flex";
     ReactDOM.render(<Spin tip="加载中..." size="large"></Spin>, loadingDOM);
   } else {
     loadingDOM.setAttribute("class", "");
-    loadingDOM.style.display = 'none'
+    loadingDOM.style.display = "none";
     ReactDOM.render("", loadingDOM);
   }
 };
 const service = axios.create({
-  // baseURL: process.env.NODE_ENV ,
-  baseURL: "/",
+  baseURL:
+    process.env.NODE_ENV === "development" ? "/api" : "http://127.0.0.1:3009",
   timeout: 20000, //请求超时的时间
 });
 const arr = [service];
@@ -73,4 +73,4 @@ arr.forEach((item) => {
 });
 // request拦截器,在请求之前做一些处理
 
-export  { service };
+export { service };

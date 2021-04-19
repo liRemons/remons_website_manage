@@ -1,4 +1,4 @@
-import Select from '@components/Select'
+import FormItem from '@components/FormItem'
 import SearchBtn from '@components/SearchBtn'
 import { Table, Button, Space, Form, Input, Card, Modal, Image, message } from 'antd';
 import { EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
@@ -25,9 +25,17 @@ function Singer(props) {
       getSingerList({})
     }
 
-    const ItemData = [
+    const itemData = [
       { name: 'name', label: "歌手名称", childNode: <Input /> },
     ]
+
+    const searchProps = {
+      form,
+      add,
+      reset,
+      del,
+      ...props
+    }
     return (
       <Form
         form={form}
@@ -36,21 +44,14 @@ function Singer(props) {
         layout='inline'
         size="small"
       >
-        {
-          ItemData.map(item =>
-            <Form.Item key={item.name} name={item.name} label={item.label}>
-              {item.childNode}
-            </Form.Item>
-          )
-        }
-        <SearchBtn form={form} {...props} add={add} reset={reset} del={del}></SearchBtn>
+        <FormItem itemData={itemData}></FormItem>
+        <SearchBtn {...searchProps}></SearchBtn>
       </Form>
     );
   };
   const add = () => {
     setHandleType('add')
     setVisible(true)
-
   }
   const onCancel = () => {
     setVisible(false)
@@ -107,28 +108,37 @@ function Singer(props) {
     checkedTable,
     onChange: onSelectChange,
   };
+  // table props
+  const tableProps = {
+    size: "small",
+    rowSelection,
+    rowKey: record => record.id,
+    columns,
+    dataSource: singerList
+  }
+  // modal props
+  const modalProps = {
+    visible,
+    onCancel,
+    destroyOnClose: true,
+    footer: null,
+    title: handleType === 'add' ? '新增' : '修改'
+  }
+  // addOrEdit props 
+  const addOrEditProps = {
+    tableForm: form,
+    onCancel,
+    editData,
+    handleType,
+    ...props
+  }
   return <>
     <Card bordered={false} className="search">
       <AdvancedSearchForm></AdvancedSearchForm>
     </Card>
-    <Table
-      size="small"
-      rowSelection={rowSelection}
-      rowKey={record => record.id}
-      columns={columns}
-      dataSource={singerList} />
-    <Modal title={handleType === 'add' ? '新增' : '修改'}
-      visible={visible}
-      onCancel={onCancel}
-      destroyOnClose={true}
-      footer={null}>
-      <AddOrEdit
-        {...props}
-        tableForm={form}
-        onCancel={onCancel}
-        editData={editData}
-        handleType={handleType}
-      ></AddOrEdit>
+    <Table {...tableProps} />
+    <Modal {...modalProps}>
+      <AddOrEdit {...addOrEditProps}></AddOrEdit>
     </Modal>
   </>
 }

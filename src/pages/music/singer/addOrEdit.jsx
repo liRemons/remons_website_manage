@@ -2,6 +2,7 @@ import { Form, Input, Button, Space, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { beforeUpload } from '@utils'
 import { useState, useEffect } from 'react'
+import FormItem from '@components/FormItem'
 function AddOrEdit(props) {
   const { addSinger, onCancel, getSingerList, tableForm, handleType, editData, updateSinger } = props;
   const [fileList, setFileList] = useState([])
@@ -12,7 +13,7 @@ function AddOrEdit(props) {
   };
   const uploadProps = {
     name: 'file',
-    action: '/api/song/uploadSingerPhoto',
+    action: 'http://127.0.0.1:3009/song/uploadSingerPhoto',
     fileList,
     beforeUpload,
     onChange({ file, fileList }) {
@@ -49,7 +50,7 @@ function AddOrEdit(props) {
       setFileList([{ name: '图片', url: photo }])
     }
   }, [])
-  const ItemData = [
+  const itemData = [
     { name: 'name', label: "歌手名", childNode: <Input /> },
     {
       name: 'photo', label: "专辑封面", childNode:
@@ -58,21 +59,18 @@ function AddOrEdit(props) {
         </Upload>,
     },
   ]
+
+
+  const formProps = {
+    name: "basic",
+    form,
+    onFinish,
+    ...layout
+  }
+
   return <>
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{ remember: true }}
-      form={form}
-      onFinish={onFinish}
-    >
-      {
-        ItemData.map((item, index) =>
-          <Form.Item key={item.name + index} name={item.name} label={item.label}>
-            {item.childNode}
-          </Form.Item>
-        )
-      }
+    <Form {...formProps}>
+      <FormItem itemData={itemData}></FormItem>
       <Space>
         <Button type="primary" htmlType="submit"> 提交 </Button>
         <Button htmlType="button" onClick={onReset}> 取消</Button>
