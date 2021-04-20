@@ -2,6 +2,7 @@ import axios from "axios";
 import ReactDOM from "react-dom";
 import qs from "qs";
 import { message, Spin } from "antd";
+import { HOST_URL } from '@config'
 const noLoadingURL = [];
 const controlLoading = ({ isOpen }) => {
   const loadingDOM = document.getElementById("loading");
@@ -17,7 +18,7 @@ const controlLoading = ({ isOpen }) => {
 };
 const service = axios.create({
   baseURL:
-    process.env.NODE_ENV === "development" ? "/api" : "http://127.0.0.1:3009",
+    process.env.NODE_ENV === "development" ? "/api" : HOST_URL,
   timeout: 20000, //请求超时的时间
 });
 const arr = [service];

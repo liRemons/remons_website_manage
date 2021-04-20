@@ -3,7 +3,7 @@ import { service } from "@axios";
 const getMusicList = ({ page, name }) => {
   return service({
     method: "get",
-    url: "/song/queryList",
+    url: "/music/querySongList",
     params: {
       page,
       name,
@@ -14,7 +14,7 @@ const getMusicList = ({ page, name }) => {
 const addSinger = ({ name, photo }) => {
   return service({
     method: "post",
-    url: "/song/addSinger",
+    url: "/music/addSinger",
     data: {
       name,
       photo,
@@ -25,7 +25,7 @@ const addSinger = ({ name, photo }) => {
 const updateSinger = (data) => {
   return service({
     method: "put",
-    url: "/song/updateSinger",
+    url: "/music/updateSinger",
     data,
   });
 };
@@ -33,7 +33,7 @@ const updateSinger = (data) => {
 const getSingerList = ({ name }) => {
   return service({
     method: "get",
-    url: "/song/querySingerList",
+    url: "/music/querySingerList",
     params: {
       name,
     },
@@ -43,7 +43,7 @@ const getSingerList = ({ name }) => {
 const delSinger = ({ ids }) => {
   return service({
     method: "delete",
-    url: "/song/delSinger",
+    url: "/music/delSinger",
     data: { ids },
   });
 };

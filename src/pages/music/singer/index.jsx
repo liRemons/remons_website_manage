@@ -1,11 +1,12 @@
-import FormItem from '@components/FormItem'
-import SearchBtn from '@components/SearchBtn'
-import { Table, Button, Space, Form, Input, Card, Modal, Image, message } from 'antd';
+import Search from '@components/Search'
+import Image from '@components/Image'
+import { Table, Button, Form, Input, Modal, message } from 'antd';
 import { EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import AddOrEdit from './addOrEdit'
 import actionCreators from '@store/music/actions'
 import { connect } from '@utils'
+import { HOST_URL } from '@config'
 const { confirm } = Modal;
 function Singer(props) {
   const [form] = Form.useForm();
@@ -14,52 +15,10 @@ function Singer(props) {
   const [checkedTable, setCheckedTable] = useState([])
   const [editData, setEditData] = useState({})
   const [handleType, setHandleType] = useState('');
-
-
-  const AdvancedSearchForm = (props) => {
-    const onFinish = (values) => {
-      getSingerList(values)
-    };
-    const reset = () => {
-      form.resetFields()
-      getSingerList({})
-    }
-
-    const itemData = [
-      { name: 'name', label: "歌手名称", childNode: <Input /> },
-    ]
-
-    const searchProps = {
-      form,
-      add,
-      reset,
-      del,
-      ...props
-    }
-    return (
-      <Form
-        form={form}
-        name="advanced_search"
-        onFinish={onFinish}
-        layout='inline'
-        size="small"
-      >
-        <FormItem itemData={itemData}></FormItem>
-        <SearchBtn {...searchProps}></SearchBtn>
-      </Form>
-    );
-  };
   const add = () => {
     setHandleType('add')
     setVisible(true)
   }
-  const onCancel = () => {
-    setVisible(false)
-  }
-  const onSelectChange = (checked) => {
-    setCheckedTable(checked)
-  }
-
   const del = () => {
     if (checkedTable.length === 0) return
     confirm({
@@ -78,11 +37,16 @@ function Singer(props) {
     });
 
   }
-
   const edit = (data) => {
     setHandleType('edit')
     setEditData(data)
     setVisible(true)
+  }
+  const onFinish = (values) => {
+    getSingerList(values)
+  };
+  const reset = () => {
+    getSingerList({})
   }
   useEffect(() => {
     getSingerList({})
@@ -94,7 +58,7 @@ function Singer(props) {
       render: (text, record) => <Image
         height={50}
         width={50}
-        src={window.photoUrl + record.photo}
+        src={HOST_URL + record.photo}
       />
     },
 
@@ -106,7 +70,7 @@ function Singer(props) {
   ];
   const rowSelection = {
     checkedTable,
-    onChange: onSelectChange,
+    onChange: val => setCheckedTable(val),
   };
   // table props
   const tableProps = {
@@ -119,7 +83,7 @@ function Singer(props) {
   // modal props
   const modalProps = {
     visible,
-    onCancel,
+    onCancel: () => setVisible(false),
     destroyOnClose: true,
     footer: null,
     title: handleType === 'add' ? '新增' : '修改'
@@ -127,15 +91,26 @@ function Singer(props) {
   // addOrEdit props 
   const addOrEditProps = {
     tableForm: form,
-    onCancel,
+    onCancel: () => setVisible(false),
     editData,
     handleType,
     ...props
   }
+
+  const itemData = [
+    { name: 'name', label: "歌手名称", childNode: <Input /> },
+  ]
+
+  const searchProps = {
+    itemData,
+    add,
+    reset,
+    del,
+    onFinish,
+
+  }
   return <>
-    <Card bordered={false} className="search">
-      <AdvancedSearchForm></AdvancedSearchForm>
-    </Card>
+    <Search {...searchProps}></Search>
     <Table {...tableProps} />
     <Modal {...modalProps}>
       <AddOrEdit {...addOrEditProps}></AddOrEdit>

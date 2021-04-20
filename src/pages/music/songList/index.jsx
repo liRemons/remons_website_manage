@@ -2,45 +2,11 @@ import { connect } from '@utils'
 import actionCreators from '@store/music/actions'
 import Select from '@components/Select'
 import AddOrEdit from './addOrEdit'
-import SearchBtn from '@components/SearchBtn'
-import { Table, Button, Space, Form, Input, Card, Modal } from 'antd';
+import Search from '@components/Search'
+import { Table, Button, Input, Modal } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-const AdvancedSearchForm = (props) => {
-  const { openModal } = props
-  const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
 
-  const add = () => {
-    openModal({ type: 'add' })
-  }
-
-  const ItemData = [
-    { name: 'name', label: "歌曲名", childNode: <Input /> },
-    { name: 'authorId', label: "歌手", childNode: <Select placeholder="请选择歌手" dataSource={[]} allowClear /> },
-    { name: 'collecttionId', label: "专辑", childNode: <Select placeholder="请选择专辑" dataSource={[]} allowClear /> },
-  ]
-  return (
-    <Form
-      form={form}
-      name="advanced_search"
-      onFinish={onFinish}
-      layout='inline'
-      size="small"
-    >
-      {
-        ItemData.map(item =>
-          <Form.Item key={item.name} name={item.name} label={item.label}>
-            {item.childNode}
-          </Form.Item>
-        )
-      }
-      <SearchBtn form={form} {...props} add={add}></SearchBtn>
-    </Form>
-  );
-};
 const columns = [
   { title: '歌曲名称', dataIndex: 'name', key: 'name' },
   { title: '所属专辑', dataIndex: 'age', key: 'collectionId' },
@@ -58,23 +24,39 @@ const columns = [
 function SongList(props) {
   const { musicList } = props;
   const [visible, setVisible] = useState(false);
-  const handleOk = () => {
-
-  }
-  const openModal = ({ type }) => {
-    if (type === 'add') setVisible(true)
-
+  const add = () => {
+    setVisible(true)
   }
   useEffect(() => {
-    
-    props.getMusicList({page:1,name:'李志'})
+    props.getMusicList({})
   }, [])
+  const itemData = [
+    { name: 'name', label: "歌曲名", childNode: <Input /> },
+    { name: 'authorId', label: "歌手", childNode: <Select placeholder="请选择歌手" dataSource={[]} allowClear /> },
+    { name: 'collecttionId', label: "专辑", childNode: <Select placeholder="请选择专辑" dataSource={[]} allowClear /> },
+  ]
+  const searchProps = {
+    itemData,
+    add
+  }
+
+  const tableProps = {
+    rowKey: record => record.id,
+    columns,
+    dataSource: musicList
+  }
+
+  const modalProps = {
+    title: '',
+    visible,
+    footer: null,
+    destroyOnClose: false,
+    onCancel: () => setVisible(false)
+  }
   return <>
-    <Card bordered={false} className="search">
-      <AdvancedSearchForm {...props} openModal={openModal}></AdvancedSearchForm>
-    </Card>
-    <Table rowKey={record => record.id} columns={columns} dataSource={musicList} />
-    <Modal title="Basic Modal" visible={visible} footer={null} destroyOnClose={true} onCancel={() => setVisible(false)}>
+    <Search {...searchProps}></Search>
+    <Table {...tableProps} />
+    <Modal {...modalProps}>
       <AddOrEdit></AddOrEdit>
     </Modal>
   </>

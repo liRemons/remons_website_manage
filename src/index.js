@@ -7,17 +7,16 @@ import { Provider } from "react-redux";
 import store from "@store";
 import RouteEl from "@router";
 import "antd/dist/antd.css";
-import { createLoadingDOM } from '@utils'
-window.photoUrl = 'http://localhost:3009'
+import { createLoadingDOM } from "@utils";
 // 创建一个loading
-createLoadingDOM()
+createLoadingDOM();
 ReactDOM.render(
   // <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter basename="/manage">
-        <RouteEl></RouteEl>
-      </BrowserRouter>
-    </Provider>,
+  <Provider store={store}>
+    <BrowserRouter basename="/manage">
+      <RouteEl></RouteEl>
+    </BrowserRouter>
+  </Provider>,
   // </React.StrictMode>,
   document.getElementById("root")
 );

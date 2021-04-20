@@ -3,6 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { beforeUpload } from '@utils'
 import { useState, useEffect } from 'react'
 import FormItem from '@components/FormItem'
+import { HOST_URL } from '@config'
 function AddOrEdit(props) {
   const { addSinger, onCancel, getSingerList, tableForm, handleType, editData, updateSinger } = props;
   const [fileList, setFileList] = useState([])
@@ -13,7 +14,7 @@ function AddOrEdit(props) {
   };
   const uploadProps = {
     name: 'file',
-    action: 'http://127.0.0.1:3009/song/uploadSingerPhoto',
+    action: HOST_URL + '/music/uploadSingerPhoto',
     fileList,
     beforeUpload,
     onChange({ file, fileList }) {
