@@ -1,63 +1,124 @@
 import { connect } from '@utils'
 import actionCreators from '@store/music/actions'
-import Select from '@components/Select'
 import AddOrEdit from './addOrEdit'
 import Search from '@components/Search'
-import { Table, Button, Input, Modal } from 'antd';
-import { EditOutlined } from '@ant-design/icons'
+import { Table, Button, Input, Modal, Select, message, Form } from 'antd';
+import { EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-
-const columns = [
-  { title: '歌曲名称', dataIndex: 'name', key: 'name' },
-  { title: '所属专辑', dataIndex: 'age', key: 'collectionId' },
-  { title: '歌手', dataIndex: 'address', key: 'authorId' },
-  {
-    title: '播放地址', key: 'url', dataIndex: 'url',
-  },
-  {
-    title: '操作',
-    key: 'id',
-    render: (text, record) => <Button type="primary" shape="circle" size="small" icon={<EditOutlined />} />,
-  },
-];
-
+const { Option } = Select
+const { confirm } = Modal
 function SongList(props) {
-  const { musicList } = props;
+  const [form] = Form.useForm();
+  const { musicList, getMusicList, getSingerList, getCollectionList, singerList, collectionList, delSong } = props;
   const [visible, setVisible] = useState(false);
+  const [checkedTable, setCheckedTable] = useState([])
+  const [handleType, setHandleType] = useState('');
+  const [editData, setEditData] = useState({})
   const add = () => {
+    setHandleType('add')
     setVisible(true)
   }
+  const del = () => {
+    if (checkedTable.length === 0) return
+    confirm({
+      title: '删除后不可恢复，确认?',
+      icon: <ExclamationCircleOutlined />,
+      cancelText: "取消",
+      okText: '确定',
+      async onOk() {
+        const res = await delSong({ ids: checkedTable })
+        if (res.success) {
+          getMusicList(form.getFieldsValue())
+          message.success(res.msg)
+        }
+      },
+      onCancel() { },
+    });
+
+  }
+
+  const edit = (data) => {
+    setHandleType('edit');
+    setEditData(data)
+    setVisible(true)
+  }
+  const onFinish = (val) => {
+    getMusicList(val)
+  }
   useEffect(() => {
-    props.getMusicList({})
+    getMusicList({})
+    getSingerList({})
+    getCollectionList({})
   }, [])
   const itemData = [
     { name: 'name', label: "歌曲名", childNode: <Input /> },
-    { name: 'authorId', label: "歌手", childNode: <Select placeholder="请选择歌手" dataSource={[]} allowClear /> },
-    { name: 'collecttionId', label: "专辑", childNode: <Select placeholder="请选择专辑" dataSource={[]} allowClear /> },
+    {
+      name: 'authorId', label: "歌手", childNode:
+        <Select placeholder="请选择歌手" allowClear >
+          {singerList.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
+        </Select>
+    },
+    {
+      name: 'collectionId', label: "专辑", childNode:
+        <Select placeholder="请选择专辑" allowClear>
+          {collectionList.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
+        </Select>
+    },
   ]
   const searchProps = {
     itemData,
-    add
+    add,
+    del,
+    onFinish
   }
+
+  const columns = [
+    { title: '歌曲名称', dataIndex: 'name', key: 'name' },
+    { title: '所属专辑', dataIndex: 'collectionName', key: 'collectionId' },
+    { title: '歌手', dataIndex: 'authorName', key: 'authorId' },
+    {
+      title: '播放地址', key: 'url', dataIndex: 'url',
+    },
+    {
+      title: '操作',
+      key: 'id',
+      render: (text, record) =>
+        <Button type="primary" shape="circle" size="small" onClick={() => edit(record)} icon={<EditOutlined />} />,
+    },
+  ];
+
+  const rowSelection = {
+    checkedTable,
+    onChange: val => setCheckedTable(val),
+  };
 
   const tableProps = {
     rowKey: record => record.id,
     columns,
-    dataSource: musicList
+    dataSource: musicList,
+    rowSelection
   }
 
   const modalProps = {
-    title: '',
+    title: handleType === 'add' ? '新增' : "修改",
     visible,
     footer: null,
-    destroyOnClose: false,
+    destroyOnClose: true,
     onCancel: () => setVisible(false)
+  }
+
+  const addOrProps = {
+    onCancel: () => setVisible(false),
+    itemData,
+    handleType,
+    editData,
+    ...props
   }
   return <>
     <Search {...searchProps}></Search>
     <Table {...tableProps} />
     <Modal {...modalProps}>
-      <AddOrEdit></AddOrEdit>
+      <AddOrEdit {...addOrProps}></AddOrEdit>
     </Modal>
   </>
 }

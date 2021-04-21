@@ -3,6 +3,7 @@ import * as type from "./type";
 const defaultState = {
   musicList: [],
   singerList: [],
+  collectionList: [],
 };
 
 export default (state = defaultState, action = {}) => {
@@ -14,6 +15,9 @@ export default (state = defaultState, action = {}) => {
       break;
     case type["SINGER_LIST"]:
       newState.singerList = data;
+      break;
+    case type["COLLECTION_LIST"]:
+      newState.collectionList = data;
       break;
     default:
       break;
