@@ -1,5 +1,7 @@
+import { urldecode } from '@utils'
+import { HOST_URL } from '@config'
 import axios from 'axios'
-import { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Anchor, message } from 'antd'
 import MDEditor from '@uiw/react-md-editor'
 import { v1 as uuid } from 'uuid'
@@ -9,22 +11,15 @@ import './markdowncolor.less'
 import styled from './index.module.less'
 const { Link } = Anchor
 function Markdown(props) {
-  const { markdown, container } = props
-  const [anchor, setAnchor] = useState([])
-  useLayoutEffect(() => {
-    if (markdown&&!anchor.length) {
-      setTimeout(() => {
-        getAuchor()
-        initCodeClassName()
-        const { location: { hash } } = props;
-        if (hash) {
-          const a = document.createElement('a')
-          a.href = hash;
-          a.click()
-        }
-      }, 500);
-    }
-  })
+  const [anchor, setAnchor] = useState([]);
+  const { history: { location } } = props;
+  const { url } = urldecode(location.search);
+  const [mark, setMark] = useState('')
+
+  const getMark = async () => {
+    const res = await axios.get(HOST_URL + url);
+    setMark(res.data)
+  }
 
   const initCodeClassName = () => {
     document.querySelectorAll('.wmde-markdown-color pre[class*="language-"]').forEach(item => {
@@ -34,7 +29,7 @@ function Markdown(props) {
       dom.innerText = codeType + ' 复制代码';
       dom.fatherClass = onlyId;
       dom.setAttribute('class', 'copy');
-      item.className = ' ' + onlyId;
+      item.className += ' ' + onlyId;
       item.appendChild(dom)
     })
   }
@@ -51,8 +46,8 @@ function Markdown(props) {
       })
     })
     setAnchor(anchorArr)
-
   }
+
 
   const handleClick = (e) => {
     if (e.target.className === 'copy') {
@@ -64,16 +59,38 @@ function Markdown(props) {
       }
     }
   }
-  const changeAnchor = (val) => {
 
+  const changeAnchor = (val) => {
+    document.querySelector('.ant-anchor-link-active')?.scrollIntoView({ block: 'center' })
 
   }
+
   const Node = (__html) => <div dangerouslySetInnerHTML={{ __html }}></div>
+
+  useEffect(() => {
+    if (mark && !anchor.length) {
+      setTimeout(() => {
+        getAuchor()
+        initCodeClassName()
+        const { location: { hash } } = props;
+        if (hash) {
+          const a = document.createElement('a')
+          a.href = hash;
+          a.click()
+        }
+      }, 500);
+    }
+  })
+  useEffect(() => {
+    getMark()
+  }, []);
   return <>
-    <div onClick={handleClick}>
-      <MDEditor.Markdown source={markdown} style={{ width: 'calc(100% - 400px)' }} />
-      <div style={{ position: 'fixed', zIndex: '9999', right: 0, top: 0, width: '400px' }}>
-        <Anchor getContainer={() => document.querySelector(container)} onChange={changeAnchor}>
+    <div className={styled.container}>
+      <div className={['markdown', styled.markdown].join(' ')} onClick={handleClick}>
+        <MDEditor.Markdown source={mark} />
+      </div>
+      <div className={styled.anchor}>
+        <Anchor getContainer={() => document.querySelector('.markdown')} onChange={changeAnchor}>
           {
             anchor.map(item => <Link href={'#' + item.text} key={item.text} title={Node(item.title)}></Link>)
           }

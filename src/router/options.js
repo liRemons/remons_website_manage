@@ -27,6 +27,15 @@ export const option = [
     },
   },
   {
+    path: "/markdown",
+    name: "markdown",
+    component: lazy(() => import("@pages/markdown")),
+    title: "mark",
+    meta: {
+      isPublicCom: true,
+    },
+  },
+  {
     path: "/music",
     name: "music",
     title: "音乐管理",

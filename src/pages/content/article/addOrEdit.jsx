@@ -1,25 +1,47 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Anchor } from 'antd'
 import MDEditor from '@uiw/react-md-editor'
-import Markdown from '@components/markdown'
+import { Button, Space, } from 'antd'
 import styled from './index.module.less'
 function AddOrEdit(props) {
   const [markdown, setMarkdown] = useState('');
+  const {addArticle}   = props
+  const getMark = async () => {
+    const res = await axios.get('/mark/feq/summarize/md/React.md')
+    setMarkdown(res.data);
+  }
   useEffect(() => {
-    axios.get('/mark/feq/summarize/md/React.md').then(res => {
-      setMarkdown(res.data);
-    })
+    getMark()
+    // let timer = setInterval(() => {
+    //   console.log(markdown);
+    //   if (markdown) {
+    //     localStorage.markdown = markdown
+    //   }
+    // }, 10000)
+    // return () => {
+    //   clearInterval(timer)
+    // }
   }, [])
 
 
+  const changeMarkdown = (val) => {
+    setMarkdown(val)
+  }
 
+  const onReset = () => {
 
-  const changeMarkdown = () => { }
+  }
+  const submit = () => {
+    addArticle({content:markdown})
+  }
   return <>
-    {/* <MDEditor value={markdown} onChange={changeMarkdown}/> */}
-    {/* <MDEditor.Markdown source={markdown} /> */}
-    <Markdown {...props} container='.ant-modal-wrap' markdown={markdown}></Markdown>
+    <MDEditor value={markdown} onChange={changeMarkdown} />
+    <div className="tc" style={{ margin: '20px 0' }}>
+      <Space>
+        <Button type="primary" onClick={submit}> 提交 </Button>
+        <Button htmlType="button" onClick={onReset}> 取消</Button>
+      </Space>
+    </div>
   </>
 }
 

@@ -1,3 +1,4 @@
 import home from "./home";
 import music from "./music";
-export { home, music };
+import content from './content'
+export { home, music ,content};
