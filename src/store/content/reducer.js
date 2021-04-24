@@ -1,21 +1,20 @@
-import * as type from './type'
-
+import * as type from "./type";
 
 const defaultState = {
+  techClassList: [],
+};
 
-}
-
-export default (state = defaultState, action ={} ) => {
+export default (state = defaultState, action = {}) => {
   const newState = { ...state };
-  const { data ,type} = action
+  const { data } = action;
   switch (action.type) {
-    case '':
-      
+    case type["TECH_CLASS_LIST"]:
+      newState.techClassList = data;
       break;
-  
+
     default:
       break;
   }
 
-  return newState
-}
+  return newState;
+};
