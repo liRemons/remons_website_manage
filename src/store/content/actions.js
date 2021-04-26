@@ -6,6 +6,9 @@ const {
   addTechClass,
   updateTechClass,
   delTechClass,
+  getArticleList,
+  updateArticle,
+  delArticle,
 } = content;
 const action = {
   // 新增文章
@@ -36,6 +39,27 @@ const action = {
   // 删除技术分类
   delTechClass: (payload) => async () => {
     const res = await delTechClass(payload);
+    return res;
+  },
+
+  // 获取技术文章列表
+  getArticleList: (payload) => async (dispatch) => {
+    const res = await getArticleList(payload);
+    const action = {
+      type: type.TECT_ARTICLE_LIST,
+      payload,
+      data: res.data,
+    };
+    dispatch(action);
+  },
+  // 更新技术文章
+  updateArticle: (payload) => async () => {
+    const res = await updateArticle(payload);
+    return res;
+  },
+  // 删除技术文章
+  delArticle: (payload) => async () => {
+    const res = await delArticle(payload);
     return res;
   },
 };

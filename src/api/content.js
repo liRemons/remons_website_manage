@@ -46,10 +46,48 @@ const delTechClass = ({ ids }) => {
     data: { ids },
   });
 };
+
+// 查询文章列表
+const getArticleList = ({ title, techClassId }) => {
+  return service({
+    method: "get",
+    url: "/content/queryArticleList",
+    data: {
+      title,
+      techClassId,
+    },
+  });
+};
+// 更新文章
+const updateArticle = ({ title, id, content, techClassId }) => {
+  return service({
+    method: "put",
+    url: "/content/updateArticle",
+    data: {
+      title,
+      id,
+      content,
+      techClassId,
+    },
+  });
+};
+// 删除文章
+const delArticle = ({ ids }) => {
+  return service({
+    method: "delete",
+    url: "/content/delArticle",
+    data: {
+      ids,
+    },
+  });
+};
 export default {
   addArticle,
   getTechClassList,
   addTechClass,
   updateTechClass,
   delTechClass,
+  getArticleList,
+  updateArticle,
+  delArticle
 };
