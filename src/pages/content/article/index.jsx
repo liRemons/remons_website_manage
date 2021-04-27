@@ -109,7 +109,7 @@ function Article(props) {
   return <>
     <Search {...searchProps}></Search>
     <Table {...tableProps} />
-    <Modal {...modalProps}>
+    <Modal {...modalProps} width={1000}>
       <AddOrEdit {...addOrProps}></AddOrEdit>
     </Modal>
   </>

@@ -1,11 +1,13 @@
 import { service } from "@axios";
 // 添加文章
-const addArticle = ({ content }) => {
+const addArticle = ({ title, content, techClassId }) => {
   return service({
     method: "post",
     url: "/content/addArticle",
     data: {
+      title,
       content,
+      techClassId,
     },
   });
 };
@@ -89,5 +91,5 @@ export default {
   delTechClass,
   getArticleList,
   updateArticle,
-  delArticle
+  delArticle,
 };

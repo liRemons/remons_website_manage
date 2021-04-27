@@ -1,62 +1,47 @@
-import { Button, Space, Form, Upload,message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Button, Space, Form, message } from 'antd';
 import FormItem from '@components/FormItem'
 import { useState, useEffect } from 'react'
+import MDEditor from '@uiw/react-md-editor'
+import axios from 'axios'
 import { HOST_URL } from '@config'
 export default (props) => {
-  const { itemData, onCancel, getMusicList, addSong, handleType, editData, updateSong } = props
+  const { itemData, onCancel, getArticleList, addArticle, handleType, editData, updateArticle } = props
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState([])
+  const [markdown, setMarkdown] = useState('')
   const onFinish = async (val) => {
-    const res = handleType === 'add' ? await addSong(val) : await updateSong({ ...val, id: editData.id });
+    const res = handleType === 'add'
+      ? await addArticle({ content: markdown, ...val })
+      : await updateArticle({ content: markdown, ...val, id: editData.id });
     if (res.success) {
       message.success(res.msg)
-      getMusicList({})
+      getArticleList({})
       onCancel()
     }
   }
 
+
+  const getMarkdown = async (url) => {
+    const res = await axios.get(HOST_URL + url)
+    setMarkdown(res.data)
+  }
+
   const onReset = () => {
-    setFileList([]);
     onCancel()
   }
 
 
-
-  const uploadProps = {
-    name: 'file',
-    fileList,
-    action: HOST_URL + '/music/uploadMusicFile',
-    onChange({ file, fileList }) {
-      file.status && setFileList(fileList)
-      if (file.status === 'done') {
-        form.setFieldsValue({ url: file.response.path })
-      } else {
-        form.setFieldsValue({ url: '' })
-      }
-    },
-  };
-
-
   useEffect(() => {
     if (handleType === 'edit') {
-      const { name, authorId, collectionId } = editData
+      const { title, techClassId, url } = editData
+      getMarkdown(url)
       form.setFieldsValue({
-        authorId, collectionId, name
+        title, techClassId
       })
     }
   }, []);
 
 
-  const ItemData = handleType === 'add' ? [
-    ...itemData,
-    {
-      name: 'file', label: "歌曲文件", childNode:
-        <Upload {...uploadProps} >
-          <Button icon={<UploadOutlined />}>上传</Button>
-        </Upload>,
-    },
-  ] : itemData
+  const ItemData = itemData
   const formProps = {
     name: "edit",
     form,
@@ -73,10 +58,13 @@ export default (props) => {
   return <>
     <Form {...formProps}>
       <FormItem itemData={ItemData}></FormItem>
-      <Space>
-        <Button type="primary" htmlType="submit"> 提交 </Button>
-        <Button htmlType="button" onClick={onReset}> 取消</Button>
-      </Space>
+      <MDEditor value={markdown} onChange={(val) => setMarkdown(val)} />
+      <div className="tc">
+        <Space>
+          <Button type="primary" htmlType="submit"> 提交 </Button>
+          <Button htmlType="button" onClick={onReset}> 取消</Button>
+        </Space>
+      </div>
     </Form>
   </>
 }
