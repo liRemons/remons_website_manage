@@ -39,6 +39,10 @@
   text-align: center;
 }
 
+.ml20{
+  margin: 20px 0;
+}
+
 ::-webkit-scrollbar {
   width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 8px;

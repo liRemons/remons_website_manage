@@ -2,18 +2,19 @@ import { urldecode } from '@utils'
 import { HOST_URL } from '@config'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Anchor, message } from 'antd'
+import { Anchor, message, Button } from 'antd'
 import MDEditor from '@uiw/react-md-editor'
 import { v1 as uuid } from 'uuid'
 import methods from 'methods-r'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import './markdown.less'
 import './markdowncolor.less'
 import styled from './index.module.less'
 const { Link } = Anchor
 function Markdown(props) {
   const [anchor, setAnchor] = useState([]);
-  const { history: { location } } = props;
-  const { url } = urldecode(location.search);
+  const { history, history: { location } } = props;
+  const { url, pathname } = urldecode(location.search);
   const [mark, setMark] = useState('')
 
   const getMark = async () => {
@@ -84,7 +85,21 @@ function Markdown(props) {
   useEffect(() => {
     getMark()
   }, []);
+
+  const back = () => {
+    history.replace(pathname)
+  }
+
+  const btnProps = {
+    type: 'primary',
+    shape: 'round',
+    icon: <ArrowLeftOutlined />,
+    size: 'small',
+    className: styled.back,
+    onClick: back
+  }
   return <>
+    <Button {...btnProps}>返回</Button>
     <div className={styled.container}>
       <div className={['markdown', styled.markdown].join(' ')} onClick={handleClick}>
         <MDEditor.Markdown source={mark} />

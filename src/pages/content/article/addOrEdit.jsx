@@ -59,7 +59,7 @@ export default (props) => {
     <Form {...formProps}>
       <FormItem itemData={ItemData}></FormItem>
       <MDEditor value={markdown} onChange={(val) => setMarkdown(val)} />
-      <div className="tc">
+      <div className="tc ml20">
         <Space>
           <Button type="primary" htmlType="submit"> 提交 </Button>
           <Button htmlType="button" onClick={onReset}> 取消</Button>
