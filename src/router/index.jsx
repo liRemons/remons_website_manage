@@ -16,13 +16,13 @@ const initOption = (data) => {
 initOption(option)
 const isPublicComOption = routerOptions.filter(item => !item.meta.isPublicCom);
 const PublicComOption = routerOptions.filter(item => item.meta.isPublicCom);
-const initRoute = (data) =>
+const initRoute = (data, history) =>
   data.map(item =>
     <Route
       path={item.path}
       exact={item.path === '/'}
       key={item.path + 'route'}
-      component={item.component}
+      render={() => <item.component {...item} history={history}></item.component>}
     ></Route>
   )
 
@@ -34,9 +34,9 @@ export default function RouterEl() {
   return (
     <Suspense fallback={<Spin tip="加载中..." size="large"></Spin>}>
       <Switch>
-        {initRoute(PublicComOption)}
+        {initRoute(PublicComOption, history)}
         <Layout>
-          {initRoute(isPublicComOption)}
+          {initRoute(isPublicComOption, history)}
         </Layout>
       </Switch>
     </Suspense>
