@@ -73,11 +73,14 @@ function Markdown(props) {
       setTimeout(() => {
         getAuchor()
         initCodeClassName()
-        const { location: { hash } } = props;
-        if (hash) {
-          const a = document.createElement('a')
-          a.href = hash;
-          a.click()
+        const { location } = props;
+        if (location) {
+          const { hash } = location;
+          if (hash) {
+            const a = document.createElement('a')
+            a.href = hash;
+            a.click()
+          }
         }
       }, 500);
     }
