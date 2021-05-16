@@ -16,7 +16,7 @@ const getTechClassList = ({ name }) => {
   return service({
     method: "get",
     url: "/content/queryTechClassList",
-    data: {
+    params: {
       name,
     },
   });
@@ -54,7 +54,7 @@ const getArticleList = ({ title, techClassId }) => {
   return service({
     method: "get",
     url: "/content/queryArticleList",
-    data: {
+    params: {
       title,
       techClassId,
     },
