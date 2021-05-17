@@ -42,7 +42,7 @@ function Markdown(props) {
       item.className = 'anchor_markdown';
       item.id = text
       anchorArr.push({
-        title: item.innerHTML,
+        title: item.outerHTML,
         text
       })
     })
@@ -52,7 +52,6 @@ function Markdown(props) {
 
   const handleClick = (e) => {
     if (e.target.className === 'copy') {
-      console.log(e);
       const dom = document.querySelector(`.${e.target.fatherClass} code[class*="language-"]`);
       if (dom) {
         methods.copy(dom)
@@ -107,7 +106,7 @@ function Markdown(props) {
       <div className={['markdown', styled.markdown].join(' ')} onClick={handleClick}>
         <MDEditor.Markdown source={mark} />
       </div>
-      <div className={styled.anchor}>
+      <div className={['wmde-markdown',styled.anchor].join(' ')}>
         <Anchor getContainer={() => document.querySelector('.markdown')} onChange={changeAnchor}>
           {
             anchor.map(item => <Link href={'#' + item.text} key={item.text} title={Node(item.title)}></Link>)
