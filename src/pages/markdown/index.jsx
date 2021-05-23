@@ -72,7 +72,7 @@ function Markdown(props) {
       setTimeout(() => {
         getAuchor()
         initCodeClassName()
-        const { location } = props;
+        const { history: { location } } = props;
         if (location) {
           const { hash } = location;
           if (hash) {
@@ -106,7 +106,7 @@ function Markdown(props) {
       <div className={['markdown', styled.markdown].join(' ')} onClick={handleClick}>
         <MDEditor.Markdown source={mark} />
       </div>
-      <div className={['wmde-markdown',styled.anchor].join(' ')}>
+      <div className={['wmde-markdown', styled.anchor].join(' ')}>
         <Anchor getContainer={() => document.querySelector('.markdown')} onChange={changeAnchor}>
           {
             anchor.map(item => <Link href={'#' + item.text} key={item.text} title={Node(item.title)}></Link>)
