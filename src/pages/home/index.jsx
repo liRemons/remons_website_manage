@@ -19,7 +19,6 @@ function Home(props) {
     }
   }
 
-  //  console.log(props);
   return <>
     <div className={styled.main}>
       {homeBtn.map((item, index) =>
@@ -27,16 +26,6 @@ function Home(props) {
           <img src={item.icon} alt="" />
         </div>
       )}
-
-      {/* 永远相信美好的事情即将发生
-      <div className={styled.enter}>
-        <Button
-          type="primary"
-          shape="round"
-          size="large"
-          onClick={changeRouter}
-        >立即进入 <LogoutOutlined /></Button>
-      </div> */}
     </div>
   </>
 }
