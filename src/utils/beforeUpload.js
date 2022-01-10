@@ -1,5 +1,5 @@
 import { message } from 'antd';
-export default (file, type = 'image', size = 1) => {
+export default (file, type = 'image', size = 20) => {
   const isLt2M = file.size / 1024 / 1024 < size;
   if (!isLt2M) {
     message.error(`文件大小须小于${size}M`);
