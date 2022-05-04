@@ -5,6 +5,8 @@ import music from './music/reducer';
 import content from './content/reducer';
 import doc from './doc/reducer';
 import info from './info/reducer';
+import user from './user/reducer';
+
 // 合并 reducer
 const reducer = combineReducers({
   utils,
@@ -13,6 +15,7 @@ const reducer = combineReducers({
   content,
   doc,
   info,
+  user
 });
 
 export default reducer;

@@ -1,7 +1,6 @@
 import { service } from '@axios';
 // 添加文章
 const addMyInfo = ({ keyName, val, url, description }) => {
-  console.log({ description });
   return service({
     method: 'post',
     url: '/info/addMyInfo',

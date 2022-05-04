@@ -3,9 +3,8 @@ import { connect } from '@utils'
 import Search from '@components/Search';
 import actionCreators from '@store/info/actions';
 import AddOrEdit from './addOrEdit'
-import { Table, Button, Input, Modal, Select, message, Form } from 'antd';
-import { EditOutlined, ExclamationCircleOutlined, PaperClipOutlined } from '@ant-design/icons'
-import { HOST_URL } from '@config'
+import { Table, Button, Input, Modal, message, Form } from 'antd';
+import { EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 const { confirm } = Modal;
 
 function Info(props) {
@@ -38,7 +37,6 @@ function Info(props) {
     });
   }
   const edit = (data) => {
-    console.log(data);
     setHandleType('edit')
     setEditData(data)
     setVisible(true)
