@@ -1,5 +1,5 @@
 import { service } from '@axios';
-// 添加文章
+// 添加用户
 const addUser = ({ account, password, photo, name }) => {
   return service({
     method: 'post',
@@ -12,7 +12,7 @@ const addUser = ({ account, password, photo, name }) => {
     },
   });
 };
-// 查询技术分类
+// 查询用户
 const queryUser = ({ name, account }) => {
   return service({
     method: 'get',
@@ -23,6 +23,14 @@ const queryUser = ({ name, account }) => {
     },
   });
 };
+
+const queryUserEumn = () => {
+  return service({
+    method: 'get',
+    url: '/user/queryUserEumn',
+    params: {},
+  });
+}
 // 更新技术分类
 const updateUser = (data) => {
   return service({
@@ -45,4 +53,5 @@ export default {
   updateUser,
   queryUser,
   deleteUser,
+  queryUserEumn
 };

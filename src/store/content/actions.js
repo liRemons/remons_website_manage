@@ -11,7 +11,7 @@ const {
   delArticle,
 } = content;
 
-const { queryUser } = user;
+const { queryUserEumn } = user;
 const action = {
   // 新增文章
   addArticle: (payload) => async () => {
@@ -67,7 +67,7 @@ const action = {
 
   // 获取用户列表
   getUser: (payload) => async (dispatch) => {
-    const res = await queryUser(payload);
+    const res = await queryUserEumn(payload);
     const action = {
       type: type.USER,
       payload,
