@@ -27,7 +27,8 @@ arr.forEach((item) => {
   loadingCount = 0; // 接口请求累加
   item.interceptors.request.use(
     (config) => {
-      config.headers['REMONS_TOKEN'] = localStorage.getItem('REMONS_TOKEN');
+      const REMONS_TOKEN = localStorage.getItem('REMONS_TOKEN');
+      REMONS_TOKEN && (config.headers['REMONS_TOKEN'] = REMONS_TOKEN);
       // 如果需要序列化
       if (
         config.headers['Content-Type'] === 'application/x-www-form-urlencoded'

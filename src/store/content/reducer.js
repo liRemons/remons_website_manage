@@ -3,6 +3,7 @@ import * as type from "./type";
 const defaultState = {
   techClassList: [],
   techArticleList: [],
+  userList: []
 };
 
 export default (state = defaultState, action = {}) => {
@@ -14,6 +15,10 @@ export default (state = defaultState, action = {}) => {
       break;
     case type["TECT_ARTICLE_LIST"]:
       newState.techArticleList = data;
+      break;
+      case type["USER"]:
+        newState.userList = data;
+        break;
     default:
       break;
   }

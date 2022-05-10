@@ -1,14 +1,18 @@
-import { Button, Space, Form, message } from 'antd';
+import { Button, Space, Form, message, Select } from 'antd';
 import FormItem from '@components/FormItem'
 import { useState, useEffect } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import axios from 'axios'
 import { HOST_URL } from '@config'
-export default (props) => {
-  const { itemData, onCancel, getArticleList, addArticle, handleType, editData, updateArticle } = props
+function AddOrEdit(props) {
+  const { itemData, onCancel, getArticleList, addArticle, handleType, editData, updateArticle, userList } = props
   const [form] = Form.useForm();
   const [markdown, setMarkdown] = useState('')
   const onFinish = async (val) => {
+    const { users } = val;
+    if(users?.length) {
+      val.userIds = users.join(',')
+    }
     const res = handleType === 'add'
       ? await addArticle({ content: markdown, ...val })
       : await updateArticle({ content: markdown, ...val, id: editData.id });
@@ -32,16 +36,21 @@ export default (props) => {
 
   useEffect(() => {
     if (handleType === 'edit') {
-      const { title, techClassId, url } = editData
+      const { title, techClassId, url, userIds } = editData
       getMarkdown(url)
       form.setFieldsValue({
-        title, techClassId
+        title, techClassId, users: userIds?.split(',')
       })
     }
   }, []);
 
 
-  const ItemData = itemData
+  const ItemData = [...itemData, {
+    name: 'users', label: "人员权限", childNode: <Select
+      mode='multiple'
+      options={props.userList.map(({ name: label, id: value }) => ({ label, value }))}
+    />
+  },]
   const formProps = {
     name: "edit",
     form,
@@ -62,9 +71,11 @@ export default (props) => {
       <div className="tc ml20">
         <Space>
           <Button type="primary" htmlType="submit"> 提交 </Button>
-          <Button htmlType="button" onClick={onReset}> 取消</Button>
+          <Button htmlType="button" onClick={onReset}> 取消 </Button>
         </Space>
       </div>
     </Form>
   </>
 }
+
+export default AddOrEdit;

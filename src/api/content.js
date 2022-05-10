@@ -1,14 +1,10 @@
 import { service } from "@axios";
 // 添加文章
-const addArticle = ({ title, content, techClassId }) => {
+const addArticle = (data) => {
   return service({
     method: "post",
     url: "/content/addArticle",
-    data: {
-      title,
-      content,
-      techClassId,
-    },
+    data,
   });
 };
 // 查询技术分类
@@ -22,14 +18,11 @@ const getTechClassList = ({ name }) => {
   });
 };
 // 新增技术分类
-const addTechClass = ({ name, icon }) => {
+const addTechClass = (data) => {
   return service({
     method: "post",
     url: "/content/addTechClass",
-    data: {
-      name,
-      icon,
-    },
+    data,
   });
 };
 // 更新技术分类
@@ -61,16 +54,11 @@ const getArticleList = ({ title, techClassId }) => {
   });
 };
 // 更新文章
-const updateArticle = ({ title, id, content, techClassId }) => {
+const updateArticle = (data) => {
   return service({
     method: "put",
     url: "/content/updateArticle",
-    data: {
-      title,
-      id,
-      content,
-      techClassId,
-    },
+    data
   });
 };
 // 删除文章

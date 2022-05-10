@@ -1,5 +1,5 @@
-import * as type from "./type";
-import { content } from "@api";
+import * as type from './type';
+import { content, user } from '@api';
 const {
   addArticle,
   getTechClassList,
@@ -10,6 +10,8 @@ const {
   updateArticle,
   delArticle,
 } = content;
+
+const { queryUser } = user;
 const action = {
   // 新增文章
   addArticle: (payload) => async () => {
@@ -61,6 +63,17 @@ const action = {
   delArticle: (payload) => async () => {
     const res = await delArticle(payload);
     return res;
+  },
+
+  // 获取用户列表
+  getUser: (payload) => async (dispatch) => {
+    const res = await queryUser(payload);
+    const action = {
+      type: type.USER,
+      payload,
+      data: res.data,
+    };
+    dispatch(action);
   },
 };
 

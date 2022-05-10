@@ -10,7 +10,7 @@ import { HOST_URL } from '@config'
 const { confirm } = Modal;
 function TechClass(props) {
   const [form] = Form.useForm();
-  const { techClassList, getTechClassList, delTechClass } = props;
+  const { techClassList, getTechClassList, delTechClass, getUser } = props;
   const [visible, setVisible] = useState(false);
   const [checkedTable, setCheckedTable] = useState([])
   const [editData, setEditData] = useState({})
@@ -49,6 +49,7 @@ function TechClass(props) {
   }
   useEffect(() => {
     getTechClassList({})
+    getUser({})
   }, [])
   const columns = [
     { title: '技术名称', dataIndex: 'name', key: 'name' },

@@ -9,7 +9,7 @@ const { Option } = Select
 const { confirm } = Modal
 function Article(props) {
   const [form] = Form.useForm();
-  const { techArticleList, getArticleList, getTechClassList, techClassList, delArticle, history } = props;
+  const { techArticleList, getArticleList, getTechClassList, techClassList, delArticle, history, getUser } = props;
   const [visible, setVisible] = useState(false);
   const [checkedTable, setCheckedTable] = useState([])
   const [handleType, setHandleType] = useState('');
@@ -53,6 +53,7 @@ function Article(props) {
   useEffect(() => {
     getArticleList({})
     getTechClassList({})
+    getUser({})
   }, [])
   const itemData = [
     { name: 'title', label: "标题", childNode: <Input /> },

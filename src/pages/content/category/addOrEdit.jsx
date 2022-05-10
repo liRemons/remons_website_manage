@@ -1,4 +1,4 @@
-import { Form, Input, Button, Space, message, Upload } from 'antd';
+import { Form, Input, Button, Space, message, Upload, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { beforeUpload } from '@utils'
 import { useState, useEffect } from 'react'
@@ -28,6 +28,10 @@ function AddOrEdit(props) {
   };
 
   const onFinish = async (values) => {
+    const { users } = values;
+    if(users?.length) {
+      values.userIds = users.join(',')
+    }
     const res = handleType === 'add'
       ? await addTechClass(values)
       : await updateTechClass({ ...values, id: editData.id });
@@ -45,16 +49,23 @@ function AddOrEdit(props) {
 
   useEffect(() => {
     if (handleType === 'edit') {
-      const { name, icon } = editData
+      const { name, icon, userIds } = editData
       form.setFieldsValue({
         name,
-        icon
+        icon,
+        users: userIds?.split(',')
       })
       setFileList([{ name: '图片', url: icon }])
     }
   }, [])
   const itemData = [
     { name: 'name', label: "技术名称", childNode: <Input /> },
+    {
+      name: 'users', label: "人员权限", childNode: <Select
+      mode='multiple'
+        options={props.userList.map(({ name: label, id: value }) => ({ label, value }))}
+      />
+    },
     {
       name: 'icon', label: "icon", childNode:
         <Upload  {...uploadProps}>
