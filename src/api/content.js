@@ -53,6 +53,17 @@ const getArticleList = ({ title, techClassId }) => {
     },
   });
 };
+
+// 查询文章详情
+const getArticleDetail = ({ id }) => {
+  return service({
+    method: "get",
+    url: "/content/getArticleDetail",
+    params: {
+      id
+    },
+  });
+};
 // 更新文章
 const updateArticle = (data) => {
   return service({
@@ -80,4 +91,5 @@ export default {
   getArticleList,
   updateArticle,
   delArticle,
+  getArticleDetail
 };

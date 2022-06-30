@@ -7,6 +7,7 @@ const {
   updateTechClass,
   delTechClass,
   getArticleList,
+  getArticleDetail,
   updateArticle,
   delArticle,
 } = content;
@@ -53,6 +54,17 @@ const action = {
       data: res.data,
     };
     dispatch(action);
+  },
+  // 查询文章详情
+  getArticleDetail: (payload) => async (dispatch) => {
+    const res = await getArticleDetail(payload);
+    const action = {
+      type: type.TECT_ARTICLE_DETAIL,
+      payload,
+      data: res.data,
+    };
+    dispatch(action);
+    return res;
   },
   // 更新技术文章
   updateArticle: (payload) => async () => {

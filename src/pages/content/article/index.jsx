@@ -9,11 +9,10 @@ const { Option } = Select
 const { confirm } = Modal
 function Article(props) {
   const [form] = Form.useForm();
-  const { techArticleList, getArticleList, getTechClassList, techClassList, delArticle, history, getUser } = props;
+  const { techArticleList, getArticleList, getArticleDetail, getTechClassList, techClassList, delArticle, history, getUser } = props;
   const [visible, setVisible] = useState(false);
   const [checkedTable, setCheckedTable] = useState([])
   const [handleType, setHandleType] = useState('');
-  const [editData, setEditData] = useState({})
   const add = () => {
     setHandleType('add')
     setVisible(true)
@@ -42,9 +41,10 @@ function Article(props) {
     history.replace(`/markdown?url=${data.url}&pathname=${pathname}`)
   }
 
-  const edit = (data) => {
+  const edit = async (data) => {
     setHandleType('edit');
-    setEditData(data)
+    await getArticleDetail({ id: data.id })
+    // setEditData(data)
     setVisible(true)
   }
   const onFinish = (val) => {
@@ -114,7 +114,6 @@ function Article(props) {
     onCancel: () => setVisible(false),
     itemData,
     handleType,
-    editData,
     ...props
   }
   return <>
