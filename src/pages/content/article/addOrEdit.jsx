@@ -54,8 +54,7 @@ function AddOrEdit(props) {
         enable: false,
       },
       upload: {
-        url: HOST_URL + '/content/uploadTechMarkdownImg',
-        linkToImgUrl: HOST_URL + '/content/uploadTechMarkdownLinkToImg',
+        url: HOST_URL + '/content/uploadMarkdownImg',
         format: (files, responseText) => {
           if (typeof responseText === 'string') {
             return JSON.stringify({
@@ -77,10 +76,6 @@ function AddOrEdit(props) {
         setVditor(vditor);
         if (handleType === 'edit') {
           vditor.setValue(editData.content)
-          const res = await axios.get(HOST_URL + editData.url)
-          if (res.data) {
-            vditor.setValue(res.data)
-          }
         }
       },
       blur: (val) => { }
