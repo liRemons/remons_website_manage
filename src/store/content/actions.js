@@ -10,6 +10,7 @@ const {
   getArticleDetail,
   updateArticle,
   delArticle,
+  downloadMarkdown
 } = content;
 
 const { queryUserEumn } = user;
@@ -74,6 +75,11 @@ const action = {
   // 删除技术文章
   delArticle: (payload) => async () => {
     const res = await delArticle(payload);
+    return res;
+  },
+
+  downloadMarkdown: () => async () => {
+    const res = await downloadMarkdown();
     return res;
   },
 

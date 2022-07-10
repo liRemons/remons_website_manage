@@ -4,7 +4,7 @@ import { DeleteOutlined, SearchOutlined, ReloadOutlined, PlusOutlined } from '@a
 
 function Search(props) {
   const [form] = Form.useForm();
-  const { onFinish, itemData, del, add, reset } = props;
+  const { onFinish, itemData, del, add, reset, btnItems = [] } = props;
   const formReset = () => {
     form.resetFields()
     reset()
@@ -14,6 +14,7 @@ function Search(props) {
     { type: 'primary', icon: <ReloadOutlined />, onClick: formReset },
     { type: 'primary', icon: <PlusOutlined />, onClick: add },
     { type: 'primary', danger: true, icon: <DeleteOutlined />, onClick: del },
+    ...btnItems
   ]
 
   const formProps = {

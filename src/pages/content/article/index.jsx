@@ -1,15 +1,17 @@
-import { connect } from '@utils'
+import { connect } from '@utils';
+import { HOST_URL } from '@config';
 import actionCreators from '@store/content/actions'
-import AddOrEdit from './addOrEdit'
+import AddOrEdit from './addOrEdit';
+import { download } from 'methods-r';
 import Search from '@components/Search'
 import { Table, Button, Input, Modal, Select, message, Form } from 'antd';
-import { EditOutlined, ExclamationCircleOutlined, PaperClipOutlined } from '@ant-design/icons'
+import { EditOutlined, ExclamationCircleOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 const { Option } = Select
 const { confirm } = Modal
 function Article(props) {
   const [form] = Form.useForm();
-  const { techArticleList, getArticleList, getArticleDetail, getTechClassList, techClassList, delArticle, history, getUser } = props;
+  const { techArticleList, downloadMarkdown, getArticleList, getArticleDetail, getTechClassList, techClassList, delArticle, history, getUser } = props;
   const [visible, setVisible] = useState(false);
   const [checkedTable, setCheckedTable] = useState([])
   const [handleType, setHandleType] = useState('');
@@ -17,6 +19,16 @@ function Article(props) {
     setHandleType('add')
     setVisible(true)
   }
+
+
+  const exportMarkdown = async () => {
+    const res = await downloadMarkdown();
+    if (res.success) {
+      message.success('成功');
+      download(`${HOST_URL}${res.path}`)
+    }
+  }
+
   const del = () => {
     if (checkedTable.length === 0) return
     confirm({
@@ -34,11 +46,6 @@ function Article(props) {
       onCancel() { },
     });
 
-  }
-
-  const toMarkdown = (data) => {
-    const { pathname } = history.location;
-    history.replace(`/markdown?url=${data.url}&pathname=${pathname}`)
   }
 
   const edit = async (data) => {
@@ -59,7 +66,7 @@ function Article(props) {
     { name: 'title', label: "标题", childNode: <Input /> },
     {
       name: 'techClassId', label: "所属分类", childNode:
-        <Select allowClear >S
+        <Select allowClear >
           {techClassList.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
         </Select>
     },
@@ -69,18 +76,15 @@ function Article(props) {
     itemData,
     add,
     del,
-    onFinish
+    onFinish,
+    btnItems: [
+      { icon: <VerticalAlignBottomOutlined />, type: 'primary', onClick: exportMarkdown }
+    ]
   }
 
   const columns = [
     { title: '文章名称', dataIndex: 'title', key: 'title' },
     { title: '所属分类', dataIndex: 'techClassName', key: 'techClassName' },
-    {
-      title: '地址', key: 'url', dataIndex: 'url',
-      render: (text, record) =>
-        <Button type="primary" shape="circle" size="small" onClick={() => toMarkdown(record)} icon={<PaperClipOutlined />} />
-    },
-
     { title: '创建时间', dataIndex: 'createTime', key: 'createTime' },
     {
       title: '操作',

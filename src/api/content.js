@@ -82,6 +82,14 @@ const delArticle = ({ ids }) => {
     },
   });
 };
+
+
+const downloadMarkdown = () => {
+  return service({
+    method: "get",
+    url: "/content/downloadMarkdown"
+  });
+};
 export default {
   addArticle,
   getTechClassList,
@@ -91,5 +99,6 @@ export default {
   getArticleList,
   updateArticle,
   delArticle,
-  getArticleDetail
+  getArticleDetail,
+  downloadMarkdown
 };
