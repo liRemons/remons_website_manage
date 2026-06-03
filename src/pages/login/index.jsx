@@ -18,7 +18,7 @@ const NormalLoginForm = (props) => {
       localStorage.setItem('REMONS_TOKEN', res.data.token);
       const params = new URLSearchParams(props.history.location.search);
       if (params.get('form')) {
-        window.location.href = params.get('form')
+        window.location.href = params.get('from')
       } else {
         props.history.replace('/manange/home')
       }
