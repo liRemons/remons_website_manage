@@ -62,8 +62,6 @@ arr.forEach((item) => {
       if (!res.success) {
         message.error(res.message || res.msg);
         if (res.code === 401) {
-          console.log(res, '====');
-          return
           window.location.href = `/manage/login?from=${window.location.href}`;
         }
 
