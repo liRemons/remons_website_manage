@@ -35,7 +35,7 @@ function AddOrEdit(props) {
     if (handleType === 'edit') {
       const { title, techClassId, userIds } = editData
       form.setFieldsValue({
-        title, techClassId, users: userIds?.split(',')
+        title, techClassId, users: userIds?.split(',') || []
       })
     }
 
