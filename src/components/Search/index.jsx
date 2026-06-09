@@ -18,7 +18,7 @@ function Search(props) {
   ]
 
   const formProps = {
-    form, name: 'search', onFinish: val => onFinish(val), layout: 'inline', size: 'mini'
+    form, name: 'search', onFinish: val => onFinish(val), layout: 'inline', size: 'mini',
   }
 
   return (

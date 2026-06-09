@@ -21,7 +21,11 @@ function AddOrEdit(props) {
       : await updateArticle({ content: markdown, ...val, id: editData.id });
     if (res.success) {
       message.success(res.msg)
-      getArticleList({})
+      if (props.refreshArticleList) {
+        props.refreshArticleList()
+      } else {
+        getArticleList({})
+      }
       onCancel()
     }
   }

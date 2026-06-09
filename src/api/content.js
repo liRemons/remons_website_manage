@@ -43,13 +43,15 @@ const delTechClass = ({ ids }) => {
 };
 
 // 查询文章列表
-const getArticleList = ({ title, techClassId }) => {
+const getArticleList = ({ title, techClassId, page, pageSize }) => {
   return service({
     method: "get",
     url: "/content/queryArticleList",
     params: {
       title,
       techClassId,
+      page,
+      pageSize,
     },
   });
 };

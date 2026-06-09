@@ -53,6 +53,9 @@ const action = {
       type: type.TECT_ARTICLE_LIST,
       payload,
       data: res.data,
+      total: res.total,
+      page: res.page,
+      pageSize: res.pageSize,
     };
     dispatch(action);
   },

@@ -11,7 +11,19 @@ const { Option } = Select
 const { confirm } = Modal
 function Article(props) {
   const [form] = Form.useForm();
-  const { techArticleList, downloadMarkdown, getArticleList, getArticleDetail, getTechClassList, techClassList, delArticle, history, getUser } = props;
+  const {
+    techArticleList,
+    techArticleTotal,
+    techArticlePage,
+    techArticlePageSize,
+    downloadMarkdown,
+    getArticleList,
+    getArticleDetail,
+    getTechClassList,
+    techClassList,
+    delArticle,
+    getUser,
+  } = props;
   const [visible, setVisible] = useState(false);
   const [checkedTable, setCheckedTable] = useState([])
   const [handleType, setHandleType] = useState('');
@@ -29,6 +41,15 @@ function Article(props) {
     }
   }
 
+  const refreshArticleList = (params = {}) => {
+    getArticleList({
+      ...form.getFieldsValue(),
+      page: 1,
+      pageSize: techArticlePageSize,
+      ...params,
+    })
+  }
+
   const del = () => {
     if (checkedTable.length === 0) return
     confirm({
@@ -39,7 +60,7 @@ function Article(props) {
       async onOk() {
         const res = await delArticle({ ids: checkedTable })
         if (res.success) {
-          getArticleList(form.getFieldsValue())
+          refreshArticleList()
           message.success(res.msg)
         }
       },
@@ -55,10 +76,20 @@ function Article(props) {
     setVisible(true)
   }
   const onFinish = (val) => {
-    getArticleList(val)
+    getArticleList({
+      ...val,
+      page: 1,
+      pageSize: techArticlePageSize,
+    })
+  }
+  const formReset = () => {
+    getArticleList({
+      page: 1,
+      pageSize: techArticlePageSize,
+    })
   }
   useEffect(() => {
-    getArticleList({})
+    getArticleList({ page: 1, pageSize: techArticlePageSize })
     getTechClassList({})
     getUser({})
   }, [])
@@ -66,7 +97,7 @@ function Article(props) {
     { name: 'title', label: "标题", childNode: <Input /> },
     {
       name: 'techClassId', label: "所属分类", childNode:
-        <Select allowClear >
+        <Select allowClear>
           {techClassList.map(item => <Option value={item.id} key={item.id}>{item.name}</Option>)}
         </Select>
     },
@@ -77,6 +108,7 @@ function Article(props) {
     add,
     del,
     onFinish,
+    reset: formReset,
     btnItems: [
       { icon: <VerticalAlignBottomOutlined />, type: 'primary', onClick: exportMarkdown }
     ]
@@ -103,7 +135,20 @@ function Article(props) {
     rowKey: record => record.id,
     columns,
     dataSource: techArticleList,
-    rowSelection
+    rowSelection,
+    pagination: {
+      current: techArticlePage,
+      pageSize: techArticlePageSize,
+      total: techArticleTotal,
+      showSizeChanger: true,
+      onChange: (page, pageSize) => {
+        getArticleList({
+          ...form.getFieldsValue(),
+          page,
+          pageSize,
+        })
+      },
+    },
   }
 
   const modalProps = {
@@ -118,6 +163,7 @@ function Article(props) {
     onCancel: () => setVisible(false),
     itemData,
     handleType,
+    refreshArticleList,
     ...props
   }
   return <>
